@@ -18,24 +18,32 @@ public class GetInput : MonoBehaviour
     private bool isMoving;
     private bool isTaskCompleted = true;
     // private Vector3 currentTargetPosition;
-    
+
     // int[,] map = new int[5,4];
-    
+
     // private int currentX;
     // private int currentY;
 
+    public int coins = 0;
+
     private Rigidbody2D _rigidbody2D;
-    
+    GameObject player;
+
+    List<int> loc = new List<int>();
+
     // Start is called before the first frame update
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         inputQueue.Clear();
+        player = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
     private void Update()
     {
+        //_rigidbody2D.velocity = new Vector2(-0.2f, 0.0f);
+
         if (isMoving)
         {
             if (!isTaskCompleted) return;
@@ -193,14 +201,53 @@ public class GetInput : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.tag);
-        switch(other.tag)
+        switch (other.tag)
         {
             case "water":
                 Debug.Log("Trigger Enter");
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 GetComponent<Rigidbody2D>().angularVelocity = 0;
                 isTaskCompleted = true;
+
+                loc.Add((int)other.transform.position.x);
+                loc.Add((int)other.transform.position.y);
+
+                if (loc[0] > (int)player.transform.position.x)
+                {
+                    loc.Add(loc[0] - 1);
+                }
+                else if (loc[0] < (int)player.transform.position.x)
+                {
+                    loc.Add(loc[0] + 1);
+                }
+                else
+                {
+                    loc.Add((int)player.transform.position.x);
+                }
+
+                if (loc[1] > (int)player.transform.position.y)
+                {
+                    loc.Add(loc[1] - 1);
+                }
+                else if (loc[1] < (int)player.transform.position.y)
+                {
+                    loc.Add(loc[1] + 1);
+                }
+                else
+                {
+                    loc.Add((int)player.transform.position.y);
+                }
+
+                Debug.Log(loc[2] + " " + loc[3]);
+                player.transform.position = new Vector2(loc[2], loc[3]);
+                loc.RemoveRange(0, 4);
+
+                break;
+
+            case "coin":
+                coins++;
+
+                Destroy(other.gameObject);
 
                 break;
         }

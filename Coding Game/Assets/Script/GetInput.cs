@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GetInput : MonoBehaviour
 {
@@ -230,6 +231,11 @@ public class GetInput : MonoBehaviour
                 audioSource.PlayOneShot(coinSound);
                 
                 coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
+
+                break;
+
+            case "spike":
+                SceneManager.LoadScene("Map1");
 
                 break;
         }

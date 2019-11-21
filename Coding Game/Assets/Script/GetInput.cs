@@ -38,7 +38,7 @@ public class GetInput : MonoBehaviour
     {
         if (isMoving)
         {
-            if (!isTaskCompleted) return;
+            if (isTaskCompleted) return;
             INPUTKEY direction;
             try
             {
@@ -61,16 +61,16 @@ public class GetInput : MonoBehaviour
             switch (direction)
             {
                 case INPUTKEY.UP:
-                    _rigidbody2D.AddForce(Vector2.up * 10f);
+                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.up);
                     break;
                 case INPUTKEY.DOWN:
-                    _rigidbody2D.AddForce(Vector2.down * 10f);
+                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.down);
                     break;
                 case INPUTKEY.LEFT:
-                    _rigidbody2D.AddForce(Vector2.left * 10f);
+                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.left);
                     break;
                 case INPUTKEY.RIGHT:
-                    _rigidbody2D.AddForce(Vector2.right * 10f);
+                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.right);
                     break;
             }
 

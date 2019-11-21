@@ -36,7 +36,6 @@ public class GetInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("print");
         if (isMoving)
         {
             if (!isTaskCompleted) return;
@@ -62,16 +61,16 @@ public class GetInput : MonoBehaviour
             switch (direction)
             {
                 case INPUTKEY.UP:
-                    _rigidbody2D.AddForce(Vector2.up);
+                    _rigidbody2D.AddForce(Vector2.up * 10f);
                     break;
                 case INPUTKEY.DOWN:
-                    _rigidbody2D.AddForce(Vector2.down);
+                    _rigidbody2D.AddForce(Vector2.down * 10f);
                     break;
                 case INPUTKEY.LEFT:
-                    _rigidbody2D.AddForce(Vector2.left);
+                    _rigidbody2D.AddForce(Vector2.left * 10f);
                     break;
                 case INPUTKEY.RIGHT:
-                    _rigidbody2D.AddForce(Vector2.right);
+                    _rigidbody2D.AddForce(Vector2.right * 10f);
                     break;
             }
 
@@ -113,7 +112,7 @@ public class GetInput : MonoBehaviour
                 output = output + i + " ";
             }
 
-            // Debug.Log(output);
+            Debug.Log(output);
         }
 
         ////Debuging
@@ -192,8 +191,9 @@ public class GetInput : MonoBehaviour
         return new []{ yMove, -xMove };
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Trigger Enter");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         GetComponent<Rigidbody2D>().angularVelocity = 0;
         isTaskCompleted = true;

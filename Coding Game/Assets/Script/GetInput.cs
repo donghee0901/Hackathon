@@ -203,9 +203,9 @@ public class GetInput : MonoBehaviour
                 break;
 
             case "coin":
+                Destroy(other.gameObject);
                 coins++;
                 audioSource.PlayOneShot(coinSound);
-                Destroy(other.gameObject);
                 
                 coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
 

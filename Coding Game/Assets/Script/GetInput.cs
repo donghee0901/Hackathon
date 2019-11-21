@@ -17,12 +17,6 @@ public class GetInput : MonoBehaviour
 
     private bool isMoving;
     private bool isTaskCompleted = true;
-    // private Vector3 currentTargetPosition;
-
-    // int[,] map = new int[5,4];
-
-    // private int currentX;
-    // private int currentY;
 
     public int coins = 0;
 
@@ -42,7 +36,6 @@ public class GetInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //_rigidbody2D.velocity = new Vector2(-0.2f, 0.0f);
 
         if (isMoving)
         {
@@ -58,13 +51,6 @@ public class GetInput : MonoBehaviour
                 isMoving = false;
                 return;
             }
-            /*int[] moveAmount = MoveCalc(direction);
-                Debug.Log(direction);
-                foreach (var item in moveAmount)
-                {
-                    Debug.Log(item);
-                }
-                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);*/
             switch (direction)
             {
                 case INPUTKEY.UP:
@@ -82,7 +68,6 @@ public class GetInput : MonoBehaviour
             }
 
             isTaskCompleted = false;
-            // transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
             return;
         }
         
@@ -136,68 +121,6 @@ public class GetInput : MonoBehaviour
         //    Debug.Log(debug);
         //}
     }
-
-    /*int[] MoveCalc(INPUTKEY direction)
-    {
-        int xDirection = 0;
-        int yDirection = 0;
-        int xMove = 0, yMove = 0;
-        switch (direction)
-        {
-            case INPUTKEY.UP:
-                xDirection = -1;
-                break;
-            case INPUTKEY.DOWN:
-                xDirection = 1;
-                break;
-            case INPUTKEY.LEFT:
-                yDirection = -1;
-                break;
-            case INPUTKEY.RIGHT:
-                yDirection = 1;
-                break;
-        }
-
-        while (true)
-        {
-            currentX += xDirection;
-            currentY += yDirection;
-            if (currentX < 0)
-            {
-                currentX = 0;
-                break;
-            }
-            if (currentY < 0)
-            {
-                currentY = 0;
-                break;
-            }
-            if (currentX >= map.GetLength(0))
-            {
-                currentX = 0;
-                break;
-            }
-            if (currentY >= map.GetLength(1))
-            {
-                currentY = 0;
-                break;
-            }
-
-
-            if (map[currentX, currentY] != 0)
-            {
-                currentX -= xDirection;
-                currentY -= yDirection;
-            
-                break;
-            }
-            
-            xMove += xDirection;
-            yMove += yDirection;
-        }
-
-        return new []{ yMove, -xMove };
-    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {

@@ -13,7 +13,7 @@ public class GetInput : MonoBehaviour
     
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
-    enum INPUTKEY
+    public enum INPUTKEY
     {
         UP,     //0
         DOWN,   //1
@@ -33,6 +33,8 @@ public class GetInput : MonoBehaviour
 
     List<int> loc = new List<int>();
 
+    private UIController uiController;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -40,6 +42,7 @@ public class GetInput : MonoBehaviour
         inputQueue.Clear();
         player = GameObject.FindWithTag("Player");
         audioSource = GetComponent<AudioSource>();
+        uiController = GameObject.Find("Canvas").GetComponent<UIController>();
         coinText = GameObject.Find("Coin Text");
 
         coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
@@ -85,22 +88,32 @@ public class GetInput : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            uiController.AddCommand(INPUTKEY.UP);
             inputQueue.Add(INPUTKEY.UP);
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            uiController.AddCommand(INPUTKEY.DOWN);
             inputQueue.Add(INPUTKEY.DOWN);
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            uiController.AddCommand(INPUTKEY.LEFT);
             inputQueue.Add(INPUTKEY.LEFT);
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            uiController.AddCommand(INPUTKEY.RIGHT);
             inputQueue.Add(INPUTKEY.RIGHT);
+        }
+        
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            uiController.RemoveCommand();
+            inputQueue.RemoveAt(inputQueue.Count - 1);
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -120,7 +133,7 @@ public class GetInput : MonoBehaviour
             Debug.Log(output);
         }
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Space))
         {
             audioSource.PlayOneShot(keySound);
         }

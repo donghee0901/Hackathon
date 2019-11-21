@@ -18,13 +18,13 @@ public class MainActivity : MonoBehaviour
     private bool isMoving;
     private Vector3 currentTargetPosition;
 
-    // int[,] map = new int[5,4];
+    int[,] map = new int[5,4];
 
-    // private Vector2 current;
+    //private Vector2 current;
 
     void Start()
     {
-        // current = new Vector2();
+        //current = new Vector2();
         inputQueue.Clear();
         Debug.Log("Main Loaded");
     }
@@ -33,7 +33,7 @@ public class MainActivity : MonoBehaviour
     {
         if (isMoving)
         {
-            if (transform.position == currentTargetPosition)
+            /*if (transform.position == currentTargetPosition)
             {
                 INPUTKEY direction;
                 try
@@ -46,16 +46,16 @@ public class MainActivity : MonoBehaviour
                     isMoving = false;
                     return;
                 }
-                // int[] moveAmount = MoveCalc(direction);
+                int[] moveAmount = MoveCalc(direction);
                 Debug.Log(direction);
-                /*foreach (var item in moveAmount)
+                foreach (var item in moveAmount)
                 {
                     Debug.Log(item);
                 }
-                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);*/
-            }
+                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);
+            }*/
 
-            transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
+            // transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
             return;
         }
 
@@ -109,7 +109,7 @@ public class MainActivity : MonoBehaviour
         {
             string debugString = "";
 
-            foreach(int i in inputQueue)
+            foreach(INPUTKEY i in inputQueue)
             {
                 debugString = debugString + i + " ";
             }
@@ -120,6 +120,9 @@ public class MainActivity : MonoBehaviour
 
     /*int[] MoveCalc(INPUTKEY direction)
     {
+        Vector2 current = transform.position;
+        current.y--;
+        current *= -1;
         int xDirection = 0;
         int yDirection = 0;
         int xMove = 0, yMove = 0;
@@ -139,12 +142,14 @@ public class MainActivity : MonoBehaviour
                 break;
         }
 
+        Debug.Log(map.GetLength(1));
         while (true)
         {
             current.x += xDirection; // VARIABLE NOT MODIFIABLE
             current.y += yDirection; // VARIABLE NOT MODIFIABLE
             if (current.x < 0)
             {
+                Debug.Log(1);
                 current.x = 0;
                 break;
             }
@@ -167,6 +172,7 @@ public class MainActivity : MonoBehaviour
 
             if (map[Convert.ToInt32(current.x), Convert.ToInt32(current.y)] != 0)
             {
+                Debug.Log("what");
                 current.x -= xDirection;
                 current.y -= yDirection;
 

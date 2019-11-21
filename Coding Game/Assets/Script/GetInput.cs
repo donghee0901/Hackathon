@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class GetInput : MonoBehaviour
 {
+    public AudioClip coinSound;
+    private AudioSource audioSource;
+
+    public float speed = 30000f;
+    
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
     enum INPUTKEY
@@ -16,48 +21,59 @@ public class GetInput : MonoBehaviour
     }
 
     private bool isMoving;
-    private Vector3 currentTargetPosition;
-    
-    int[,] map = new int[5,4];
-    
-    private int currentX;
-    private int currentY;
+    private bool isTaskCompleted = true;
+
+    public int coins = 0;
+
+    private Rigidbody2D _rigidbody2D;
+    GameObject player;
+
+    List<int> loc = new List<int>();
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
         inputQueue.Clear();
+        player = GameObject.FindWithTag("Player");
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+
         if (isMoving)
         {
-            if (transform.position == currentTargetPosition)
+            if (!isTaskCompleted) return;
+            INPUTKEY direction;
+            try
             {
-                INPUTKEY direction;
-                try
-                {
-                    direction = UsingQueue[0];
-                    Debug.Log(direction);
-                    UsingQueue.RemoveAt(0);
-                }
-                catch (Exception ignored)
-                {
-                    isMoving = false;
-                    return;
-                }
-                int[] moveAmount = MoveCalc(direction);
-                Debug.Log(direction);
-                foreach (var item in moveAmount)
-                {
-                    Debug.Log(item);
-                }
-                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);
+                direction = UsingQueue[0];
+                UsingQueue.RemoveAt(0);
+            }
+            catch (Exception ignored)
+            {
+                isMoving = false;
+                return;
+            }
+            switch (direction)
+            {
+                case INPUTKEY.UP:
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.up);
+                    break;
+                case INPUTKEY.DOWN:
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.down);
+                    break;
+                case INPUTKEY.LEFT:
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.left);
+                    break;
+                case INPUTKEY.RIGHT:
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.right);
+                    break;
             }
 
-            transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
+            isTaskCompleted = false;
             return;
         }
         
@@ -84,7 +100,7 @@ public class GetInput : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isMoving = true;
-            currentTargetPosition = transform.position;
+            // currentTargetPosition = transform.position;
             UsingQueue = inputQueue;
             
             string output = "";
@@ -95,7 +111,7 @@ public class GetInput : MonoBehaviour
                 output = output + i + " ";
             }
 
-            // Debug.Log(output);
+            Debug.Log(output);
         }
 
         ////Debuging
@@ -112,65 +128,58 @@ public class GetInput : MonoBehaviour
         //}
     }
 
-    int[] MoveCalc(INPUTKEY direction)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        int xDirection = 0;
-        int yDirection = 0;
-        int xMove = 0, yMove = 0;
-        switch (direction)
+        switch (other.tag)
         {
-            case INPUTKEY.UP:
-                xDirection = -1;
+            case "water":
+                Debug.Log("Trigger Enter");
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                GetComponent<Rigidbody2D>().angularVelocity = 0;
+                isTaskCompleted = true;
+
+                loc.Add((int)other.transform.position.x);
+                loc.Add((int)other.transform.position.y);
+
+                if (loc[0] > Mathf.RoundToInt(player.transform.position.x))
+                {
+                    loc.Add(loc[0] - 1);
+                }
+                else if (loc[0] < Mathf.RoundToInt(player.transform.position.x))
+                {
+                    loc.Add(loc[0] + 1);
+                }
+                else
+                {
+                    loc.Add(Mathf.RoundToInt(player.transform.position.x));
+                }
+
+                if (loc[1] > Mathf.RoundToInt(player.transform.position.y))
+                {
+                    loc.Add(loc[1] - 1);
+                }
+                else if (loc[1] < Mathf.RoundToInt(player.transform.position.y))
+                {
+                    loc.Add(loc[1] + 1);
+                }
+                else
+                {
+                    loc.Add(Mathf.RoundToInt(player.transform.position.y));
+                }
+
+                Debug.Log(player.transform.position.x + " " + player.transform.position.y + " to");
+                Debug.Log(loc[2] + " " + loc[3]);
+                player.transform.position = new Vector2(loc[2], loc[3]);
+                loc.RemoveRange(0, 4);
+
                 break;
-            case INPUTKEY.DOWN:
-                xDirection = 1;
-                break;
-            case INPUTKEY.LEFT:
-                yDirection = -1;
-                break;
-            case INPUTKEY.RIGHT:
-                yDirection = 1;
+
+            case "coin":
+                coins++;
+                audioSource.PlayOneShot(coinSound);
+                Destroy(other.gameObject);
+
                 break;
         }
-
-        while (true)
-        {
-            currentX += xDirection;
-            currentY += yDirection;
-            if (currentX < 0)
-            {
-                currentX = 0;
-                break;
-            }
-            if (currentY < 0)
-            {
-                currentY = 0;
-                break;
-            }
-            if (currentX >= map.GetLength(0))
-            {
-                currentX = 0;
-                break;
-            }
-            if (currentY >= map.GetLength(1))
-            {
-                currentY = 0;
-                break;
-            }
-
-
-            if (map[currentX, currentY] != 0)
-            {
-                currentX -= xDirection;
-                currentY -= yDirection;
-            
-                break;
-            }
-            
-            xMove += xDirection;
-            yMove += yDirection;
-        }
-
-        return new []{ yMove, -xMove };
     }
 }

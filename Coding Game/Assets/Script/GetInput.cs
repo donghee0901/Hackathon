@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GetInput : MonoBehaviour
 {
     public AudioClip coinSound;
+    public AudioClip keySound;
     private AudioSource audioSource;
 
     public float speed = 30000f;
@@ -23,10 +24,12 @@ public class GetInput : MonoBehaviour
     private bool isMoving;
     private bool isTaskCompleted = true;
 
-    public int coins = 0;
+    public int mapCoins = 2;
+    private int coins = 0;
 
     private Rigidbody2D _rigidbody2D;
     GameObject player;
+    GameObject coinText;
 
     List<int> loc = new List<int>();
 
@@ -37,6 +40,9 @@ public class GetInput : MonoBehaviour
         inputQueue.Clear();
         player = GameObject.FindWithTag("Player");
         audioSource = GetComponent<AudioSource>();
+        coinText = GameObject.Find("Coin Text");
+
+        coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
     }
 
     // Update is called once per frame
@@ -114,6 +120,11 @@ public class GetInput : MonoBehaviour
             Debug.Log(output);
         }
 
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Space))
+        {
+            audioSource.PlayOneShot(keySound);
+        }
+
         ////Debuging
         //if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         //{
@@ -178,6 +189,8 @@ public class GetInput : MonoBehaviour
                 coins++;
                 audioSource.PlayOneShot(coinSound);
                 Destroy(other.gameObject);
+                
+                coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
 
                 break;
         }

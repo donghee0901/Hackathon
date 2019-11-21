@@ -22,8 +22,6 @@ public class GetInput : MonoBehaviour
     
     private int currentX;
     private int currentY;
-    
-    private int moveQueueIterator = -1;
 
     // Start is called before the first frame update
     void Start()

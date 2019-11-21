@@ -4,20 +4,21 @@ using UnityEngine;
 
 namespace Script
 {
-  public class CameraControl : MonoBehaviour
-  {
-    private GameObject player;
-    
-    // Start is called before the first frame update
-    private void Start()
+    public class CameraControl : MonoBehaviour
     {
-      player = GameObject.FindWithTag("player");
-    }
+        private GameObject player;
 
-    private void LateUpdate()
-    {
-      Vector3 position = player.transform.position;
-      transform.position = new Vector3(position.x, position.y, position.z - 11);
+        // Start is called before the first frame update
+        private void Start()
+        {
+            player = GameObject.FindWithTag("Player");
+            Debug.Log(player.name);
+        }
+
+        private void LateUpdate()
+        {
+            Vector3 position = player.transform.position;
+            transform.position = new Vector3(position.x, position.y, position.z - 11);
+        }
     }
-  }
 }

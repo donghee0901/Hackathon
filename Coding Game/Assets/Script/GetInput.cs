@@ -193,9 +193,16 @@ public class GetInput : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger Enter");
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        GetComponent<Rigidbody2D>().angularVelocity = 0;
-        isTaskCompleted = true;
+        Debug.Log(other.tag);
+        switch(other.tag)
+        {
+            case "water":
+                Debug.Log("Trigger Enter");
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                GetComponent<Rigidbody2D>().angularVelocity = 0;
+                isTaskCompleted = true;
+
+                break;
+        }
     }
 }

@@ -7,6 +7,8 @@ public class GetInput : MonoBehaviour
 {
     public AudioClip coinSound;
     private AudioSource audioSource;
+
+    public float speed = 30000f;
     
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
@@ -58,16 +60,16 @@ public class GetInput : MonoBehaviour
             switch (direction)
             {
                 case INPUTKEY.UP:
-                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.up);
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.up);
                     break;
                 case INPUTKEY.DOWN:
-                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.down);
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.down);
                     break;
                 case INPUTKEY.LEFT:
-                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.left);
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.left);
                     break;
                 case INPUTKEY.RIGHT:
-                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.right);
+                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.right);
                     break;
             }
 

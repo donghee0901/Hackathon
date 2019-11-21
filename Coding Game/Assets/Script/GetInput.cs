@@ -56,7 +56,6 @@ public class GetInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(player.transform.rotation.z);
         if (isMoving)
         {
             if (!isTaskCompleted) return;
@@ -98,26 +97,38 @@ public class GetInput : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            uiController.AddCommand(INPUTKEY.UP);
-            inputQueue.Add(INPUTKEY.UP);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.UP)
+            {
+                uiController.AddCommand(INPUTKEY.UP);
+                inputQueue.Add(INPUTKEY.UP);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            uiController.AddCommand(INPUTKEY.DOWN);
-            inputQueue.Add(INPUTKEY.DOWN);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.DOWN)
+            {
+                uiController.AddCommand(INPUTKEY.DOWN);
+                inputQueue.Add(INPUTKEY.DOWN);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            uiController.AddCommand(INPUTKEY.LEFT);
-            inputQueue.Add(INPUTKEY.LEFT);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.LEFT)
+            {
+                uiController.AddCommand(INPUTKEY.LEFT);
+                inputQueue.Add(INPUTKEY.LEFT);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            uiController.AddCommand(INPUTKEY.RIGHT);
-            inputQueue.Add(INPUTKEY.RIGHT);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.RIGHT)
+            {
+                uiController.AddCommand(INPUTKEY.RIGHT);
+                inputQueue.Add(INPUTKEY.RIGHT);
+            }
         }
         
         else if (Input.GetKeyDown(KeyCode.Backspace))

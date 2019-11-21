@@ -9,15 +9,15 @@ namespace Script
     private GameObject player;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
       player = GameObject.FindWithTag("player");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-      gameObject.transform.position = player.transform.position;
+      Vector3 position = player.transform.position;
+      transform.position = new Vector3(position.x, position.y, position.z - 11);
     }
   }
 }

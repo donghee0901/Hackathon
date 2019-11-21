@@ -122,8 +122,12 @@ public class GetInput : MonoBehaviour
         
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            uiController.RemoveCommand();
-            inputQueue.RemoveAt(inputQueue.Count - 1);
+            try
+            {
+                uiController.RemoveCommand();
+                inputQueue.RemoveAt(inputQueue.Count - 1);
+            }
+            catch (Exception ignored) {}
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))

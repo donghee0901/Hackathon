@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainActivity : MonoBehaviour
 {
-    List<INPUTKEY> inputQueue = new List<INPUTKEY>();
+    private List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
     enum INPUTKEY
     {
@@ -18,13 +18,13 @@ public class MainActivity : MonoBehaviour
     private bool isMoving;
     private Vector3 currentTargetPosition;
     
-    int[,] map = new int[5,4];
-    
-    private int currentX;
-    private int currentY;
-    
+    // int[,] map = new int[5,4];
+
+    // private Vector2 current;
+
     void Start()
     {
+        // current = new Vector2();
         inputQueue.Clear();
         Debug.Log("Main Loaded");
     }
@@ -39,7 +39,6 @@ public class MainActivity : MonoBehaviour
                 try
                 {
                     direction = UsingQueue[0];
-                    Debug.Log(direction);
                     UsingQueue.RemoveAt(0);
                 }
                 catch (Exception ignored)
@@ -47,7 +46,7 @@ public class MainActivity : MonoBehaviour
                     isMoving = false;
                     return;
                 }
-                int[] moveAmount = MoveCalc(direction);
+                // int[] moveAmount = MoveCalc(direction);
                 Debug.Log(direction);
                 foreach (var item in moveAmount)
                 {
@@ -94,7 +93,7 @@ public class MainActivity : MonoBehaviour
                 output = output + i + " ";
             }
 
-            // Debug.Log(output);
+            Debug.Log(output);
         }
 
         else if (Input.GetKeyDown(KeyCode.Backspace))
@@ -120,7 +119,7 @@ public class MainActivity : MonoBehaviour
         }
     }
     
-    int[] MoveCalc(INPUTKEY direction)
+    /*int[] MoveCalc(INPUTKEY direction)
     {
         int xDirection = 0;
         int yDirection = 0;
@@ -143,34 +142,34 @@ public class MainActivity : MonoBehaviour
 
         while (true)
         {
-            currentX += xDirection;
-            currentY += yDirection;
-            if (currentX < 0)
+            current.x += xDirection; // VARIABLE NOT MODIFIABLE
+            current.y += yDirection; // VARIABLE NOT MODIFIABLE
+            if (current.x < 0)
             {
-                currentX = 0;
+                current.x = 0;
                 break;
             }
-            if (currentY < 0)
+            if (current.y < 0)
             {
-                currentY = 0;
+                current.y = 0;
                 break;
             }
-            if (currentX >= map.GetLength(0))
+            if (current.x >= map.GetLength(0))
             {
-                currentX = 0;
+                current.x = 0;
                 break;
             }
-            if (currentY >= map.GetLength(1))
+            if (current.y >= map.GetLength(1))
             {
-                currentY = 0;
+                current.y = 0;
                 break;
             }
 
 
-            if (map[currentX, currentY] != 0)
+            if (map[Convert.ToInt32(current.x), Convert.ToInt32(current.y)] != 0)
             {
-                currentX -= xDirection;
-                currentY -= yDirection;
+                current.x -= xDirection;
+                current.y -= yDirection;
             
                 break;
             }
@@ -180,5 +179,5 @@ public class MainActivity : MonoBehaviour
         }
 
         return new []{ yMove, -xMove };
-    }
+    }*/
 }

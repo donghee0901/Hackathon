@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GetInput : MonoBehaviour
 {
+    public AudioClip coinSound;
+    private AudioSource audioSource;
+    
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
     enum INPUTKEY
@@ -31,6 +34,7 @@ public class GetInput : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         inputQueue.Clear();
         player = GameObject.FindWithTag("Player");
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -169,7 +173,7 @@ public class GetInput : MonoBehaviour
 
             case "coin":
                 coins++;
-
+                audioSource.PlayOneShot(coinSound);
                 Destroy(other.gameObject);
 
                 break;

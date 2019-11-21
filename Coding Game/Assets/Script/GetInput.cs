@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainActivity : MonoBehaviour
+public class GetInput : MonoBehaviour
 {
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
@@ -22,13 +22,14 @@ public class MainActivity : MonoBehaviour
     
     private int currentX;
     private int currentY;
-    
+
+    // Start is called before the first frame update
     void Start()
     {
         inputQueue.Clear();
-        Debug.Log("Main Loaded");
     }
-    
+
+    // Update is called once per frame
     void Update()
     {
         if (isMoving)
@@ -97,29 +98,20 @@ public class MainActivity : MonoBehaviour
             // Debug.Log(output);
         }
 
-        else if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            if ((inputQueue.Count - 1) >= 0)
-            {
-                Debug.Log("deleting at " + (inputQueue.Count - 1).ToString());
-                inputQueue.RemoveAt(inputQueue.Count - 1);
-            }
-        }
+        ////Debuging
+        //if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    string debug = "";
 
-        //디버깅
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            string debugString = "";
+        //    foreach(int i in inputQueue)
+        //    {
+        //        debug = debug + i + " ";
+        //    }
 
-            foreach(int i in inputQueue)
-            {
-                debugString = debugString + i + " ";
-            }
-
-            Debug.Log(debugString);
-        }
+        //    Debug.Log(debug);
+        //}
     }
-    
+
     int[] MoveCalc(INPUTKEY direction)
     {
         int xDirection = 0;

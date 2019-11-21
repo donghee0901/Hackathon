@@ -8,6 +8,7 @@ public class GetInput : MonoBehaviour
 {
     public AudioClip coinSound;
     public AudioClip keySound;
+    public AudioClip spaceSound;
     private AudioSource audioSource;
 
     public float speed = 30000f;
@@ -160,9 +161,13 @@ public class GetInput : MonoBehaviour
             Debug.Log(output);
         }
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace))
         {
             audioSource.PlayOneShot(keySound);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            audioSource.PlayOneShot(spaceSound);
         }
 
         ////Debuging

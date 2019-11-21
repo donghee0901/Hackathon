@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public class MainActivity : MonoBehaviour
 
     private bool isMoving;
     private Vector3 currentTargetPosition;
-    
+
     // int[,] map = new int[5,4];
 
     // private Vector2 current;
@@ -28,7 +27,7 @@ public class MainActivity : MonoBehaviour
         inputQueue.Clear();
         Debug.Log("Main Loaded");
     }
-    
+
     void Update()
     {
         if (isMoving)
@@ -58,42 +57,41 @@ public class MainActivity : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
             return;
         }
-        
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            inputQueue.Add(INPUTKEY.UP);
+            inputQueue.Add((int)INPUTKEY.UP);
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            inputQueue.Add(INPUTKEY.DOWN);
+            inputQueue.Add((int)INPUTKEY.DOWN);
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            inputQueue.Add(INPUTKEY.LEFT);
+            inputQueue.Add((int)INPUTKEY.LEFT);
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            inputQueue.Add(INPUTKEY.RIGHT);
+            inputQueue.Add((int)INPUTKEY.RIGHT);
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            isMoving = true;
-            currentTargetPosition = transform.position;
-            UsingQueue = inputQueue;
-            
-            string output = "";
-
-            foreach (int i in inputQueue)
+            if (!isMoving)
             {
-                
-                output = output + i + " ";
-            }
+                isMoving = true;
+                string output = "";
 
-            Debug.Log(output);
+                foreach (int i in inputQueue)
+                {
+                    output = output + i + " ";
+                }
+
+                Debug.Log(output);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.Backspace))
@@ -118,7 +116,7 @@ public class MainActivity : MonoBehaviour
             Debug.Log(debugString);
         }
     }
-    
+
     /*int[] MoveCalc(INPUTKEY direction)
     {
         int xDirection = 0;
@@ -170,10 +168,10 @@ public class MainActivity : MonoBehaviour
             {
                 current.x -= xDirection;
                 current.y -= yDirection;
-            
+
                 break;
             }
-            
+
             xMove += xDirection;
             yMove += yDirection;
         }

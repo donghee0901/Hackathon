@@ -35,6 +35,9 @@ public class GetInput : MonoBehaviour
 
     private UIController uiController;
 
+    private SpriteRenderer spriteRenderer;
+    public Sprite[] sprites;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -44,6 +47,8 @@ public class GetInput : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         uiController = GameObject.Find("Canvas").GetComponent<UIController>();
         coinText = GameObject.Find("Coin Text");
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[0];
 
         coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
     }
@@ -51,7 +56,6 @@ public class GetInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         if (isMoving)
         {
             if (!isTaskCompleted) return;
@@ -64,21 +68,26 @@ public class GetInput : MonoBehaviour
             catch (Exception ignored)
             {
                 isMoving = false;
+                spriteRenderer.sprite = sprites[0];
                 return;
             }
             switch (direction)
             {
                 case INPUTKEY.UP:
                     _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.up);
+                    player.transform.rotation = Quaternion.Euler(0, 0, 0);
                     break;
                 case INPUTKEY.DOWN:
                     _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.down);
+                    player.transform.rotation = Quaternion.Euler(0, 0, 180);
                     break;
                 case INPUTKEY.LEFT:
                     _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.left);
+                    player.transform.rotation = Quaternion.Euler(0, 0, 90);
                     break;
                 case INPUTKEY.RIGHT:
                     _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.right);
+                    player.transform.rotation = Quaternion.Euler(0, 0, 270);
                     break;
             }
 
@@ -88,37 +97,54 @@ public class GetInput : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            uiController.AddCommand(INPUTKEY.UP);
-            inputQueue.Add(INPUTKEY.UP);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.UP)
+            {
+                uiController.AddCommand(INPUTKEY.UP);
+                inputQueue.Add(INPUTKEY.UP);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            uiController.AddCommand(INPUTKEY.DOWN);
-            inputQueue.Add(INPUTKEY.DOWN);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.DOWN)
+            {
+                uiController.AddCommand(INPUTKEY.DOWN);
+                inputQueue.Add(INPUTKEY.DOWN);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            uiController.AddCommand(INPUTKEY.LEFT);
-            inputQueue.Add(INPUTKEY.LEFT);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.LEFT)
+            {
+                uiController.AddCommand(INPUTKEY.LEFT);
+                inputQueue.Add(INPUTKEY.LEFT);
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            uiController.AddCommand(INPUTKEY.RIGHT);
-            inputQueue.Add(INPUTKEY.RIGHT);
+            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.RIGHT)
+            {
+                uiController.AddCommand(INPUTKEY.RIGHT);
+                inputQueue.Add(INPUTKEY.RIGHT);
+            }
         }
         
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            uiController.RemoveCommand();
-            inputQueue.RemoveAt(inputQueue.Count - 1);
+            try
+            {
+                uiController.RemoveCommand();
+                inputQueue.RemoveAt(inputQueue.Count - 1);
+            }
+            catch (Exception ignored) {}
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isMoving = true;
+            spriteRenderer.sprite = sprites[1];
             // currentTargetPosition = transform.position;
             UsingQueue = inputQueue;
             
@@ -199,9 +225,9 @@ public class GetInput : MonoBehaviour
                 break;
 
             case "coin":
+                Destroy(other.gameObject);
                 coins++;
                 audioSource.PlayOneShot(coinSound);
-                Destroy(other.gameObject);
                 
                 coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
 

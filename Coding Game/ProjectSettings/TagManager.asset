@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - ground
+  - item
   layers:
   - Default
   - TransparentFX
@@ -43,11 +44,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ground
+    uniqueID: 2777418663
+    locked: 0
   - name: player
     uniqueID: 3280600989
     locked: 0
-  - name: ground
-    uniqueID: 2777418663
+  - name: item
+    uniqueID: 769721769
     locked: 0
   - name: camera
     uniqueID: 2717782285

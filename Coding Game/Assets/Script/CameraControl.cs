@@ -16,7 +16,8 @@ namespace Script
 
     private void LateUpdate()
     {
-      gameObject.transform.position = player.transform.position;
+      Vector3 position = player.transform.position;
+      transform.position = new Vector3(position.x, position.y, position.z - 11);
     }
   }
 }

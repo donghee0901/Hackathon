@@ -16,6 +16,7 @@ public class GetInput : MonoBehaviour
     }
 
     private bool isMoving;
+    private bool isTaskCompleted;
     private Vector3 currentTargetPosition;
     
     int[,] map = new int[5,4];
@@ -23,41 +24,58 @@ public class GetInput : MonoBehaviour
     private int currentX;
     private int currentY;
 
+    private Rigidbody2D _rigidbody2D;
+    
     // Start is called before the first frame update
     void Start()
     {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
         inputQueue.Clear();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("print");
         if (isMoving)
         {
-            if (transform.position == currentTargetPosition)
+            if (!isTaskCompleted) return;
+            INPUTKEY direction;
+            try
             {
-                INPUTKEY direction;
-                try
-                {
-                    direction = UsingQueue[0];
-                    Debug.Log(direction);
-                    UsingQueue.RemoveAt(0);
-                }
-                catch (Exception ignored)
-                {
-                    isMoving = false;
-                    return;
-                }
-                int[] moveAmount = MoveCalc(direction);
+                direction = UsingQueue[0];
+                Debug.Log(direction);
+                UsingQueue.RemoveAt(0);
+            }
+            catch (Exception ignored)
+            {
+                isMoving = false;
+                return;
+            }
+            /*int[] moveAmount = MoveCalc(direction);
                 Debug.Log(direction);
                 foreach (var item in moveAmount)
                 {
                     Debug.Log(item);
                 }
-                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);
+                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);*/
+            switch (direction)
+            {
+                case INPUTKEY.UP:
+                    _rigidbody2D.AddForce(Vector2.up);
+                    break;
+                case INPUTKEY.DOWN:
+                    _rigidbody2D.AddForce(Vector2.down);
+                    break;
+                case INPUTKEY.LEFT:
+                    _rigidbody2D.AddForce(Vector2.left);
+                    break;
+                case INPUTKEY.RIGHT:
+                    _rigidbody2D.AddForce(Vector2.right);
+                    break;
             }
 
-            transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
+            // transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
             return;
         }
         
@@ -84,7 +102,7 @@ public class GetInput : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isMoving = true;
-            currentTargetPosition = transform.position;
+            // currentTargetPosition = transform.position;
             UsingQueue = inputQueue;
             
             string output = "";
@@ -172,5 +190,12 @@ public class GetInput : MonoBehaviour
         }
 
         return new []{ yMove, -xMove };
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().angularVelocity = 0;
+        isTaskCompleted = true;
     }
 }

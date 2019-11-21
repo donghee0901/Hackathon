@@ -16,34 +16,33 @@ public class GetInput : MonoBehaviour
     }
 
     private bool isMoving;
-    private bool isTaskCompleted;
-    private Vector3 currentTargetPosition;
+    private bool isTaskCompleted = true;
+    // private Vector3 currentTargetPosition;
     
-    int[,] map = new int[5,4];
+    // int[,] map = new int[5,4];
     
-    private int currentX;
-    private int currentY;
+    // private int currentX;
+    // private int currentY;
 
     private Rigidbody2D _rigidbody2D;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         inputQueue.Clear();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isMoving)
         {
-            if (isTaskCompleted) return;
+            if (!isTaskCompleted) return;
             INPUTKEY direction;
             try
             {
                 direction = UsingQueue[0];
-                Debug.Log(direction);
                 UsingQueue.RemoveAt(0);
             }
             catch (Exception ignored)
@@ -61,19 +60,20 @@ public class GetInput : MonoBehaviour
             switch (direction)
             {
                 case INPUTKEY.UP:
-                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.up);
+                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.up);
                     break;
                 case INPUTKEY.DOWN:
-                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.down);
+                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.down);
                     break;
                 case INPUTKEY.LEFT:
-                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.left);
+                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.left);
                     break;
                 case INPUTKEY.RIGHT:
-                    _rigidbody2D.AddForce(Time.deltaTime * 10000f * Vector2.right);
+                    _rigidbody2D.AddForce(Time.deltaTime * 30000f * Vector2.right);
                     break;
             }
 
+            isTaskCompleted = false;
             // transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
             return;
         }
@@ -129,7 +129,7 @@ public class GetInput : MonoBehaviour
         //}
     }
 
-    int[] MoveCalc(INPUTKEY direction)
+    /*int[] MoveCalc(INPUTKEY direction)
     {
         int xDirection = 0;
         int yDirection = 0;
@@ -189,7 +189,7 @@ public class GetInput : MonoBehaviour
         }
 
         return new []{ yMove, -xMove };
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {

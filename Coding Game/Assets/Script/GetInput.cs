@@ -10,9 +10,11 @@ public class GetInput : MonoBehaviour
     public AudioClip keySound;
     public AudioClip spaceSound;
     private AudioSource audioSource;
+    public String map;
+    private bool gameEnd = false;
 
     public float speed = 30000f;
-    
+
     List<INPUTKEY> inputQueue = new List<INPUTKEY>();
     private List<INPUTKEY> UsingQueue;
     public enum INPUTKEY
@@ -58,130 +60,136 @@ public class GetInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (isMoving)
+        if (!gameEnd)
         {
-            if (!isTaskCompleted) return;
-            INPUTKEY direction;
-            try
+            if (isMoving)
             {
-                direction = UsingQueue[0];
-                UsingQueue.RemoveAt(0);
-            }
-            catch (Exception ignored)
-            {
-                isMoving = false;
-                spriteRenderer.sprite = sprites[0];
+                if (!isTaskCompleted) return;
+                INPUTKEY direction;
+                try
+                {
+                    direction = UsingQueue[0];
+                    UsingQueue.RemoveAt(0);
+                }
+                catch (Exception ignored)
+                {
+                    isMoving = false;
+                    spriteRenderer.sprite = sprites[0];
+                    return;
+                }
+                switch (direction)
+                {
+                    case INPUTKEY.UP:
+                        _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.up);
+                        player.transform.rotation = Quaternion.Euler(0, 0, 0);
+                        break;
+                    case INPUTKEY.DOWN:
+                        _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.down);
+                        player.transform.rotation = Quaternion.Euler(0, 0, 180);
+                        break;
+                    case INPUTKEY.LEFT:
+                        _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.left);
+                        player.transform.rotation = Quaternion.Euler(0, 0, 90);
+                        break;
+                    case INPUTKEY.RIGHT:
+                        _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.right);
+                        player.transform.rotation = Quaternion.Euler(0, 0, 270);
+                        break;
+                }
+
+                isTaskCompleted = false;
                 return;
             }
-            switch (direction)
+
+            if (!gameEnd)
             {
-                case INPUTKEY.UP:
-                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.up);
-                    player.transform.rotation = Quaternion.Euler(0, 0, 0);
-                    break;
-                case INPUTKEY.DOWN:
-                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.down);
-                    player.transform.rotation = Quaternion.Euler(0, 0, 180);
-                    break;
-                case INPUTKEY.LEFT:
-                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.left);
-                    player.transform.rotation = Quaternion.Euler(0, 0, 90);
-                    break;
-                case INPUTKEY.RIGHT:
-                    _rigidbody2D.AddForce(Time.deltaTime * speed * Vector2.right);
-                    player.transform.rotation = Quaternion.Euler(0, 0, 270);
-                    break;
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.UP)
+                    {
+                        uiController.AddCommand(INPUTKEY.UP);
+                        inputQueue.Add(INPUTKEY.UP);
+                    }
+                }
+
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.DOWN)
+                    {
+                        uiController.AddCommand(INPUTKEY.DOWN);
+                        inputQueue.Add(INPUTKEY.DOWN);
+                    }
+                }
+
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.LEFT)
+                    {
+                        uiController.AddCommand(INPUTKEY.LEFT);
+                        inputQueue.Add(INPUTKEY.LEFT);
+                    }
+                }
+
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.RIGHT)
+                    {
+                        uiController.AddCommand(INPUTKEY.RIGHT);
+                        inputQueue.Add(INPUTKEY.RIGHT);
+                    }
+                }
+
+                else if (Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    try
+                    {
+                        uiController.RemoveCommand();
+                        inputQueue.RemoveAt(inputQueue.Count - 1);
+                    }
+                    catch (Exception ignored) { }
+                }
+
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    isMoving = true;
+                    spriteRenderer.sprite = sprites[1];
+                    // currentTargetPosition = transform.position;
+                    UsingQueue = inputQueue;
+
+                    string output = "";
+
+                    foreach (int i in inputQueue)
+                    {
+
+                        output = output + i + " ";
+                    }
+
+                    Debug.Log(output);
+                }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    audioSource.PlayOneShot(keySound);
+                }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    audioSource.PlayOneShot(spaceSound);
+                }
             }
 
-            isTaskCompleted = false;
-            return;
+            ////Debuging
+            //if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            //{
+            //    string debug = "";
+
+            //    foreach(int i in inputQueue)
+            //    {
+            //        debug = debug + i + " ";
+            //    }
+
+            //    Debug.Log(debug);
+            //}
         }
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.UP)
-            {
-                uiController.AddCommand(INPUTKEY.UP);
-                inputQueue.Add(INPUTKEY.UP);
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.DOWN)
-            {
-                uiController.AddCommand(INPUTKEY.DOWN);
-                inputQueue.Add(INPUTKEY.DOWN);
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.LEFT)
-            {
-                uiController.AddCommand(INPUTKEY.LEFT);
-                inputQueue.Add(INPUTKEY.LEFT);
-            }
-        }
-
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (inputQueue.Count == 0 || inputQueue[inputQueue.Count - 1] != INPUTKEY.RIGHT)
-            {
-                uiController.AddCommand(INPUTKEY.RIGHT);
-                inputQueue.Add(INPUTKEY.RIGHT);
-            }
-        }
-        
-        else if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            try
-            {
-                uiController.RemoveCommand();
-                inputQueue.RemoveAt(inputQueue.Count - 1);
-            }
-            catch (Exception ignored) {}
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isMoving = true;
-            spriteRenderer.sprite = sprites[1];
-            // currentTargetPosition = transform.position;
-            UsingQueue = inputQueue;
-            
-            string output = "";
-
-            foreach (int i in inputQueue)
-            {
-                
-                output = output + i + " ";
-            }
-
-            Debug.Log(output);
-        }
-
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Backspace))
-        {
-            audioSource.PlayOneShot(keySound);
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            audioSource.PlayOneShot(spaceSound);
-        }
-
-        ////Debuging
-        //if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    string debug = "";
-
-        //    foreach(int i in inputQueue)
-        //    {
-        //        debug = debug + i + " ";
-        //    }
-
-        //    Debug.Log(debug);
-        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -234,13 +242,21 @@ public class GetInput : MonoBehaviour
                 Destroy(other.gameObject);
                 coins++;
                 audioSource.PlayOneShot(coinSound);
-                
+
                 coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
+
+                if(mapCoins == coins)
+                {
+                    gameEnd = true;
+                    _rigidbody2D.velocity = Vector2.zero;
+                    spriteRenderer.sprite = sprites[0];
+                    coinText.GetComponent<TextMeshProUGUI>().text = "Stage Clear!";
+                }
 
                 break;
 
             case "spike":
-                SceneManager.LoadScene("Map1");
+                SceneManager.LoadScene(map);
 
                 break;
         }

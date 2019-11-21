@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MainActivity : MonoBehaviour
 {
-    List<int> inputQueue = new List<int>();
-    bool isMoving = false;
+    public static List<int> inputQueue = new List<int>();
+    public bool isMoving = false;
 
-    enum INPUTKEY
+    public enum INPUTKEY
     {
         UP,     //0
         DOWN,   //1

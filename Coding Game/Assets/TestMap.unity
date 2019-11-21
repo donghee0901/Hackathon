@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 42637888}
   - component: {fileID: 42637889}
   - component: {fileID: 42637890}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_118
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 165715891}
   - component: {fileID: 165715892}
   - component: {fileID: 165715893}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_4
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -763,6 +763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinSound: {fileID: 8300000, guid: 9fc1919cec01758448f47bd21357d236, type: 3}
+  speed: 30000
   coins: 0
 --- !u!82 &223617075
 AudioSource:
@@ -2339,8 +2340,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &604045971
-PolygonCollider2D:
+--- !u!61 &604045971
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2362,15 +2363,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.25, y: 0.375}
-      - {x: -0.4375, y: 0.1875}
-      - {x: -0.4375, y: -0.3125}
-      - {x: -0.375, y: -0.5}
-      - {x: 0.375, y: -0.5}
-      - {x: 0.375, y: 0}
-      - {x: 0, y: 0.375}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &656235336
 GameObject:
   m_ObjectHideFlags: 0
@@ -2673,7 +2668,7 @@ GameObject:
   - component: {fileID: 764776503}
   - component: {fileID: 764776504}
   - component: {fileID: 764776505}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_2
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -3292,7 +3287,7 @@ GameObject:
   - component: {fileID: 915701896}
   - component: {fileID: 915701897}
   - component: {fileID: 915701898}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_59
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -3689,7 +3684,7 @@ GameObject:
   - component: {fileID: 1209844855}
   - component: {fileID: 1209844856}
   - component: {fileID: 1209844857}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_116
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -4505,7 +4500,7 @@ GameObject:
   - component: {fileID: 1519391991}
   - component: {fileID: 1519391992}
   - component: {fileID: 1519391993}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: roguelikeSheet_transparent_61
   m_TagString: water
   m_Icon: {fileID: 0}
@@ -4732,7 +4727,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898069513}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0022144, y: -4.002499, z: 0}
+  m_LocalPosition: {x: 1, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 837830526}
@@ -4923,8 +4918,8 @@ Transform:
   m_Father: {fileID: 364868447}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1901380180
-PolygonCollider2D:
+--- !u!61 &1901380180
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4946,15 +4941,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.25, y: 0.375}
-      - {x: -0.4375, y: 0.1875}
-      - {x: -0.4375, y: -0.3125}
-      - {x: -0.375, y: -0.5}
-      - {x: 0.375, y: -0.5}
-      - {x: 0.375, y: 0}
-      - {x: 0, y: 0.375}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!212 &1901380181
 SpriteRenderer:
   m_ObjectHideFlags: 0

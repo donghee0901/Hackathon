@@ -141,32 +141,33 @@ public class GetInput : MonoBehaviour
                 loc.Add((int)other.transform.position.x);
                 loc.Add((int)other.transform.position.y);
 
-                if (loc[0] > (int)player.transform.position.x)
+                if (loc[0] > Mathf.RoundToInt(player.transform.position.x))
                 {
                     loc.Add(loc[0] - 1);
                 }
-                else if (loc[0] < (int)player.transform.position.x)
+                else if (loc[0] < Mathf.RoundToInt(player.transform.position.x))
                 {
                     loc.Add(loc[0] + 1);
                 }
                 else
                 {
-                    loc.Add((int)player.transform.position.x);
+                    loc.Add(Mathf.RoundToInt(player.transform.position.x));
                 }
 
-                if (loc[1] > (int)player.transform.position.y)
+                if (loc[1] > Mathf.RoundToInt(player.transform.position.y))
                 {
                     loc.Add(loc[1] - 1);
                 }
-                else if (loc[1] < (int)player.transform.position.y)
+                else if (loc[1] < Mathf.RoundToInt(player.transform.position.y))
                 {
                     loc.Add(loc[1] + 1);
                 }
                 else
                 {
-                    loc.Add((int)player.transform.position.y);
+                    loc.Add(Mathf.RoundToInt(player.transform.position.y));
                 }
 
+                Debug.Log(player.transform.position.x + " " + player.transform.position.y + " to");
                 Debug.Log(loc[2] + " " + loc[3]);
                 player.transform.position = new Vector2(loc[2], loc[3]);
                 loc.RemoveRange(0, 4);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,11 +48,11 @@ public class MainActivity : MonoBehaviour
                 }
                 // int[] moveAmount = MoveCalc(direction);
                 Debug.Log(direction);
-                foreach (var item in moveAmount)
+                /*foreach (var item in moveAmount)
                 {
                     Debug.Log(item);
                 }
-                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);
+                currentTargetPosition = transform.position + new Vector3(moveAmount[0], moveAmount[1], 0);*/
             }
 
             transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 10.0f * Time.deltaTime);
@@ -60,22 +61,22 @@ public class MainActivity : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            inputQueue.Add((int)INPUTKEY.UP);
+            inputQueue.Add(INPUTKEY.UP);
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            inputQueue.Add((int)INPUTKEY.DOWN);
+            inputQueue.Add(INPUTKEY.DOWN);
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            inputQueue.Add((int)INPUTKEY.LEFT);
+            inputQueue.Add(INPUTKEY.LEFT);
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            inputQueue.Add((int)INPUTKEY.RIGHT);
+            inputQueue.Add(INPUTKEY.RIGHT);
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))

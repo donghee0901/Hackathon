@@ -58,6 +58,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
+
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
@@ -82,22 +83,22 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
-  spriteSheet:
+      spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
-    vertices: []
-    indices: 
-    edges: []
-    weights: []
-    secondaryTextures: []
-  spritePackingTag: 
-  pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+
+    spriteID: af5fe9a8023ce5b498da20db3a4c3f76
+        vertices: []
+        indices: 
+        edges: []
+        weights: []
+        secondaryTextures: []
+      spritePackingTag: 
+      pSDRemoveMatte: 0
+      pSDShowRemoveMatteOption: 0
+      userData: 
+      assetBundleName: 
+      assetBundleVariant: 

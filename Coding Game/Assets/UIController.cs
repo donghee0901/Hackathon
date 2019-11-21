@@ -18,7 +18,8 @@ public class UIController : MonoBehaviour
     Debug.Log(references.Length);
     GameObject image = Instantiate(references[(int) command], transform);
     
-    image.GetComponent<RectTransform>().localPosition = new Vector3(25 + 40 * inputList.Count, 25);
+    
+    image.GetComponent<RectTransform>().anchoredPosition = new Vector3(25 + 40 * inputList.Count, 25);
     
     inputList.Add(image);
     

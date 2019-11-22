@@ -6054,7 +6054,7 @@ MonoBehaviour:
   coinSound: {fileID: 8300000, guid: 9fc1919cec01758448f47bd21357d236, type: 3}
   keySound: {fileID: 8300000, guid: 2625363d6e3d08042b754d7b7b01e468, type: 3}
   spaceSound: {fileID: 8300000, guid: f9f5707e6d04bd94db0cbd340e9d6076, type: 3}
-  slideSound: {fileID: 8300000, guid: aa56b85325389a542a7612b7efd86949, type: 3}
+  slideSound: {fileID: 8300000, guid: b11e0ad6d47131241af83f6d9f8f165f, type: 3}
   map: TestMap
   speed: 30000
   mapCoins: 2

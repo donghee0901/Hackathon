@@ -9,6 +9,7 @@ public class GetInput : MonoBehaviour
     public AudioClip coinSound;
     public AudioClip keySound;
     public AudioClip spaceSound;
+    public AudioClip slideSound;
     private AudioSource audioSource;
     public String map;
     private bool gameEnd = false;
@@ -28,7 +29,7 @@ public class GetInput : MonoBehaviour
     private bool isMoving;
     private bool isTaskCompleted = true;
 
-    public int mapCoins = 2;
+    public int mapCoins;
     private int coins = 0;
 
     private Rigidbody2D _rigidbody2D;
@@ -55,6 +56,7 @@ public class GetInput : MonoBehaviour
         spriteRenderer.sprite = sprites[0];
 
         coinText.GetComponent<TextMeshProUGUI>().text = ("Coins : " + coins + " / " + mapCoins);
+        Debug.Log(mapCoins);
     }
 
     // Update is called once per frame
@@ -74,7 +76,9 @@ public class GetInput : MonoBehaviour
                 catch (Exception ignored)
                 {
                     isMoving = false;
+                    
                     spriteRenderer.sprite = sprites[0];
+                    audioSource.Stop();
                     return;
                 }
                 switch (direction)
@@ -153,6 +157,7 @@ public class GetInput : MonoBehaviour
                 {
                     isMoving = true;
                     spriteRenderer.sprite = sprites[1];
+                    audioSource.PlayOneShot(slideSound);
                     // currentTargetPosition = transform.position;
                     UsingQueue = inputQueue;
 
@@ -251,6 +256,7 @@ public class GetInput : MonoBehaviour
                     _rigidbody2D.velocity = Vector2.zero;
                     spriteRenderer.sprite = sprites[0];
                     coinText.GetComponent<TextMeshProUGUI>().text = "Stage Clear!";
+                    audioSource.Stop();
                 }
 
                 break;
